@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+      - name: jellyfin
+        image: lscr.io/linuxserver/jellyfin:latest
+        ports:
+        - containerPort: 8096
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+        - name: tvshows-volume
+          mountPath: /tvshows
+        - name: movies-volume
+          mountPath: /movies
+      volumes:
+      - name: config-volume
+        emptyDir: {}
+      - name: tvshows-volume
+        emptyDir: {}
+      - name: movies-volume
+        emptyDir: {}
